@@ -41,9 +41,19 @@ export default new Router({
                     meta: {title: '帖子评论管理'}
                 },
                 {
+                    path: 'postCollection',
+                    component: resolve => require(['../components/page/PostCollectionTable.vue'], resolve),
+                    meta: {title: '帖子收藏管理'}
+                },
+                {
                     path: 'newsTable',
                     component: resolve => require(['../components/page/NewsTable.vue'], resolve),
                     meta: {title: '新闻管理'}
+                },
+                {
+                    path: 'newsCollection',
+                    component: resolve => require(['../components/page/NewsCollectionTable.vue'], resolve),
+                    meta: {title: '新闻收藏管理'}
                 },
                 {
                     path: 'newsComment',

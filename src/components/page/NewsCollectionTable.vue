@@ -2,26 +2,24 @@
     <div class="table">
         <div class="crumbs">
             <el-breadcrumb separator="/">
-                <el-breadcrumb-item><i class="el-icon-lx-cascades"></i> 帖子评论管理</el-breadcrumb-item>
+                <el-breadcrumb-item><i class="el-icon-lx-cascades"></i> 新闻收藏管理</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="container">
             <div class="handle-box">
-                <el-input class="handle-input mr10" placeholder="筛选评论人" v-model="selectUser"></el-input>
-                <el-input class="handle-input mr10" placeholder="筛选帖子" v-model="selectPost"></el-input>
+                <el-input class="handle-input mr10" placeholder="筛选收藏人" v-model="selectUser"></el-input>
+                <el-input class="handle-input mr10" placeholder="筛选新闻" v-model="selectNews"></el-input>
                 <el-button @click="search" icon="search" type="primary">搜索</el-button>
             </div>
             <el-table :data="data" @selection-change="handleSelectionChange" border class="table" ref="multipleTable">
-                <el-table-column prop="commentId" v-if="false"/>
+                <el-table-column prop="collectionId" v-if="false"/>
                 <el-table-column prop="userId" v-if="false"/>
-                <el-table-column prop="postId" v-if="false"/>
-                <el-table-column label="帖子题目" prop="postTitle">
+                <el-table-column prop="newsId" v-if="false"/>
+                <el-table-column label="新闻题目" prop="newsTitle">
                 </el-table-column>
-                <el-table-column label="评论人" prop="userName">
+                <el-table-column label="收藏者" prop="userName">
                 </el-table-column>
-                <el-table-column label="内容" prop="content">
-                </el-table-column>
-                <el-table-column label="评论时间" prop="createTime">
+                <el-table-column label="创建时间" prop="createTime">
                 </el-table-column>
                 <el-table-column align="center" label="操作">
                     <template slot-scope="scope">
@@ -50,7 +48,7 @@
 
 <script>
     export default {
-        name: 'postCommentTable',
+        name: 'basetable',
         data() {
             return {
                 tableData: [],
@@ -60,7 +58,7 @@
                 pages: 0,
                 multipleSelection: [],
                 selectUser: '',
-                selectPost: '',
+                selectNews: '',
                 editVisible: false,
                 delVisible: false,
                 idx: -1
@@ -86,10 +84,10 @@
                     size: this.size,
                     t: {
                         userName: this.selectUser,
-                        postTitle: this.selectPost
+                        newsTitle: this.selectNews
                     }
                 };
-                this.axiosProxy.getPostCommentList(queryParams).then(response => {
+                this.axiosProxy.getNewsCollectionList(queryParams).then(response => {
                     this.tableData = response.data.records;
                     this.total = response.data.total;
                     this.pages = response.data.pages;
@@ -114,7 +112,7 @@
                 let queryParams = {
                     id: this.tableData[this.idx].collectionId
                 };
-                this.axiosProxy.deletePostCollection(queryParams).then(response => {
+                this.axiosProxy.deleteNewsCollection(queryParams).then(response => {
                     if (!response.data) {
                         this.$message.success('删除失败');
                     } else {
@@ -132,10 +130,6 @@
 <style scoped>
     .handle-box {
         margin-bottom: 20px;
-    }
-
-    .handle-select {
-        width: 120px;
     }
 
     .handle-input {

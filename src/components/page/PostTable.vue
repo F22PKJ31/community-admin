@@ -49,9 +49,6 @@
                 <el-form-item label="帖子题目">
                     <el-input v-model="form.title"></el-input>
                 </el-form-item>
-                <el-form-item label="内容">
-                    <el-input v-model="form.content"></el-input>
-                </el-form-item>
                 <el-form-item label="创建时间">
                     <el-date-picker type="datetime" value-format="yyyy-MM-dd'T'HH:mm:ss" v-model="form.createTime">
                     </el-date-picker>
@@ -124,6 +121,11 @@
                     }
                 };
                 this.axiosProxy.getPostList(queryParams).then(response => {
+                    response.data.records.filter(record => {
+                        if (record.content.length > 30) {
+                            record.content = record.content.substring(0, 27) + '...';
+                        }
+                    })
                     this.tableData = response.data.records;
                     this.total = response.data.total;
                     this.pages = response.data.pages;

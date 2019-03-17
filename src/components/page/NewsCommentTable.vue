@@ -114,7 +114,7 @@
                 let queryParams = {
                     id: this.tableData[this.idx].collectionId
                 };
-                this.axiosProxy.deleteCollection(queryParams).then(response => {
+                this.axiosProxy.deleteNewsComment(queryParams).then(response => {
                     if (!response.data) {
                         this.$message.success('删除失败');
                     } else {

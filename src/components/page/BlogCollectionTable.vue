@@ -112,7 +112,7 @@
                 let queryParams = {
                     id: this.tableData[this.idx].collectionId
                 };
-                this.axiosProxy.deleteCollection(queryParams).then(response => {
+                this.axiosProxy.deleteBlogCollection(queryParams).then(response => {
                     if (!response.data) {
                         this.$message.success('删除失败');
                     } else {
