@@ -69,6 +69,10 @@ export default new Router({
                     path: 'user',
                     component: resolve => require(['../components/page/UserTable.vue'], resolve),
                     meta: {title: '用户管理'}
+                }, {
+                    path: 'headImgTable',
+                    component: resolve => require(['../components/page/HeadImgTable.vue'], resolve),
+                    meta: {title: '轮播图管理'}
                 }
             ]
         },

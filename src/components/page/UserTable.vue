@@ -101,6 +101,17 @@
                 <el-form-item label="邮箱">
                     <el-input v-model="form.email" type="email"></el-input>
                 </el-form-item>
+                <el-form-item label="头像" prop="imgUrl">
+                    <el-upload
+                            class="avatar-uploader"
+                            action="http://localhost:8010/file/uploadFile"
+                            :show-file-list="false"
+                            :on-success="handleAvatarSuccess"
+                            :before-upload="beforeAvatarUpload">
+                        <img v-if="form.imgUrl" :src="form.imgUrl" class="avatar head-img">
+                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                    </el-upload>
+                </el-form-item>
                 <el-form-item label="创建时间">
                     <el-date-picker type="datetime" value-format="yyyy-MM-dd'T'HH:mm:ss" v-model="form.createTime">
                     </el-date-picker>
@@ -143,11 +154,11 @@
                 rules: {
                     userName: [
                         {required: true, message: '请输入用户名', trigger: 'blur'},
-                        {min:2,max:20,message:'长度在2到20个字符之间',trigger:'blur'}
+                        {min: 2, max: 20, message: '长度在2到20个字符之间', trigger: 'blur'}
                     ],
                     passwd: [
                         {required: true, message: '请输入密码', trigger: 'blur'},
-                        {min:8,max:16,message:'长度在8到16个字符之间',trigger:'blur'}
+                        {min: 8, max: 16, message: '长度在8到16个字符之间', trigger: 'blur'}
                     ],
                     mobile: [
                         {required: true, message: '请输入手机号', trigger: 'blur'}
@@ -163,7 +174,8 @@
                     sex: '',
                     mobile: '',
                     age: '',
-                    email: ''
+                    email: '',
+                    imgUrl: ''
                 },
                 idx: -1
             }
@@ -245,7 +257,8 @@
                     mobile: item.mobile,
                     age: item.age,
                     email: item.email,
-                    createTime: item.createTime
+                    createTime: item.createTime,
+                    imgUrl: item.imgUrl
                 };
                 this.editVisible = true;
             },
@@ -267,6 +280,20 @@
                     this.getData();
                     this.$message.success(`添加成功`);
                 })
+            },
+            handleAvatarSuccess(res, file) {
+                if (res.error == '0'){
+                    this.form.imgUrl = res.url;
+                }
+            },
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isPNG = file.type === 'image/png';
+
+                if (!isJPG && !isPNG) {
+                    this.$message.error('上传头像图片只能是 JPG 或 PNG 格式!');
+                }
+                return isJPG || isPNG;
             }
         }
     }

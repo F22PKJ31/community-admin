@@ -39,5 +39,7 @@ export default {
     , updateCategory: {url: categoryHost + '/category/updateCategory'}
     , deleteCategory: {url: categoryHost + '/category/deleteCategory'}
     , getCategoryListByPage: {url: categoryHost + '/category/categoryListByPage'}
+    , headImgList: {url: newsHost + '/news/headImgList'}
+    , sendHeadImg: {url: newsHost + '/news/sendHeadImg'}
     // , deleteComment: {url: blogHost + '/blog/deleteComment'}
 }

@@ -63,6 +63,10 @@
                         icon: 'el-icon-lx-cascades',
                         index: 'user',
                         title: '用户管理'
+					}, {
+                        icon: 'el-icon-lx-cascades',
+                        index: 'headImgTable',
+                        title: '轮播图管理'
                     }
 
                 ]

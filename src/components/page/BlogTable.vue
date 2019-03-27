@@ -1,90 +1,90 @@
 <template>
-	<div class="table">
-		<div class="crumbs">
-			<el-breadcrumb separator="/">
-				<el-breadcrumb-item><i class="el-icon-lx-cascades"></i> 博客管理</el-breadcrumb-item>
-			</el-breadcrumb>
-		</div>
-		<div class="container">
-			<div class="handle-box">
-				<el-select class="handle-select mr10" placeholder="分类" v-model="selectCategory">
-					<el-option label="全部" value=""></el-option>
-					<el-option :key="category.categoryId" :label="category.categoryName" :value="category.categoryId"
-					           v-for="category in categoryData"></el-option>
-				</el-select>
-				<el-input class="handle-input mr10" placeholder="筛选发博人" v-model="selectUser"></el-input>
-				<el-input class="handle-input mr10" placeholder="筛选博客" v-model="selectBlog"></el-input>
-				<el-button @click="search" icon="search" type="primary">搜索</el-button>
-			</div>
-			<el-table :data="data" @selection-change="handleSelectionChange" border class="table" ref="multipleTable">
-				<el-table-column prop="blogId" v-if="false"/>
-				<el-table-column prop="userId" v-if="false"/>
-				<el-table-column label="博客题目" prop="title">
-				</el-table-column>
-				<el-table-column label="发博人" prop="userName">
-				</el-table-column>
-				<el-table-column label="分类" prop="categoryName">
-				</el-table-column>
-				<el-table-column prop="categoryId" v-if="false">
-				</el-table-column>
-				<el-table-column label="内容" prop="content">
-				</el-table-column>
-				<el-table-column label="创建时间" prop="createTime">
-				</el-table-column>
-				<el-table-column align="center" label="操作">
-					<template slot-scope="scope">
-						<el-button @click="handleEdit(scope.$index, scope.row)" icon="el-icon-edit" type="text">编辑
-						</el-button>
-						<el-button @click="handleDelete(scope.$index, scope.row)" class="red" icon="el-icon-delete"
-						           type="text">删除
-						</el-button>
-					</template>
-				</el-table-column>
-			</el-table>
-			<div class="pagination">
-				<el-pagination :current-page="current" :page-size="size" :total="total"
-				               @current-change="handleCurrentChange" background
-				               layout="prev, pager, next">
-				</el-pagination>
-			</div>
-		</div>
-		
-		<!-- 编辑弹出框 -->
-		<el-dialog :visible.sync="editVisible" title="编辑" width="30%">
-			<el-form :model="form" label-width="100px" ref="form">
-				<el-form-item v-if="false">
-					<el-input v-model="form.blogId"></el-input>
-				</el-form-item>
-				<el-form-item label="博客题目">
-					<el-input v-model="form.title"></el-input>
-				</el-form-item>
-				<el-form-item label="分类">
-					<el-select v-model="form.categoryId">
-						<el-option :key="category.categoryId" :label="category.categoryName"
-						           :value="category.categoryId"
-						           v-for="category in categoryData"></el-option>
-					</el-select>
-				</el-form-item>
-				<el-form-item label="创建时间">
-					<el-date-picker type="datetime" v-model="form.createTime" value-format="yyyy-MM-dd'T'HH:mm:ss">
-					</el-date-picker>
-				</el-form-item>
-			</el-form>
-			<span class="dialog-footer" slot="footer">
+    <div class="table">
+        <div class="crumbs">
+            <el-breadcrumb separator="/">
+                <el-breadcrumb-item><i class="el-icon-lx-cascades"></i> 博客管理</el-breadcrumb-item>
+            </el-breadcrumb>
+        </div>
+        <div class="container">
+            <div class="handle-box">
+                <el-select class="handle-select mr10" placeholder="分类" v-model="selectCategory">
+                    <el-option label="全部" value=""></el-option>
+                    <el-option :key="category.categoryId" :label="category.categoryName" :value="category.categoryId"
+                               v-for="category in categoryData"></el-option>
+                </el-select>
+                <el-input class="handle-input mr10" placeholder="筛选发博人" v-model="selectUser"></el-input>
+                <el-input class="handle-input mr10" placeholder="筛选博客" v-model="selectBlog"></el-input>
+                <el-button @click="search" icon="search" type="primary">搜索</el-button>
+            </div>
+            <el-table :data="data" @selection-change="handleSelectionChange" border class="table" ref="multipleTable">
+                <el-table-column prop="blogId" v-if="false"/>
+                <el-table-column prop="userId" v-if="false"/>
+                <el-table-column label="博客题目" prop="title">
+                </el-table-column>
+                <el-table-column label="发博人" prop="userName">
+                </el-table-column>
+                <el-table-column label="分类" prop="categoryName">
+                </el-table-column>
+                <el-table-column prop="categoryId" v-if="false">
+                </el-table-column>
+                <el-table-column label="内容" prop="content">
+                </el-table-column>
+                <el-table-column label="创建时间" prop="createTime">
+                </el-table-column>
+                <el-table-column align="center" label="操作">
+                    <template slot-scope="scope">
+                        <el-button @click="handleEdit(scope.$index, scope.row)" icon="el-icon-edit" type="text">编辑
+                        </el-button>
+                        <el-button @click="handleDelete(scope.$index, scope.row)" class="red" icon="el-icon-delete"
+                                   type="text">删除
+                        </el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <div class="pagination">
+                <el-pagination :current-page="current" :page-size="size" :total="total"
+                               @current-change="handleCurrentChange" background
+                               layout="prev, pager, next">
+                </el-pagination>
+            </div>
+        </div>
+
+        <!-- 编辑弹出框 -->
+        <el-dialog :visible.sync="editVisible" title="编辑" width="30%">
+            <el-form :model="form" label-width="100px" ref="form">
+                <el-form-item v-if="false">
+                    <el-input v-model="form.blogId"></el-input>
+                </el-form-item>
+                <el-form-item label="博客题目">
+                    <el-input v-model="form.title"></el-input>
+                </el-form-item>
+                <el-form-item label="分类">
+                    <el-select v-model="form.categoryId">
+                        <el-option :key="category.categoryId" :label="category.categoryName"
+                                   :value="category.categoryId"
+                                   v-for="category in categoryData"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="创建时间">
+                    <el-date-picker type="datetime" v-model="form.createTime" value-format="yyyy-MM-dd'T'HH:mm:ss">
+                    </el-date-picker>
+                </el-form-item>
+            </el-form>
+            <span class="dialog-footer" slot="footer">
                 <el-button @click="editVisible = false">取 消</el-button>
                 <el-button @click="saveEdit" type="primary">确 定</el-button>
             </span>
-		</el-dialog>
-		
-		<!-- 删除提示框 -->
-		<el-dialog :visible.sync="delVisible" center title="提示" width="300px">
-			<div class="del-dialog-cnt">删除不可恢复，是否确定删除？</div>
-			<span class="dialog-footer" slot="footer">
+        </el-dialog>
+
+        <!-- 删除提示框 -->
+        <el-dialog :visible.sync="delVisible" center title="提示" width="300px">
+            <div class="del-dialog-cnt">删除不可恢复，是否确定删除？</div>
+            <span class="dialog-footer" slot="footer">
                 <el-button @click="delVisible = false">取 消</el-button>
                 <el-button @click="deleteRow" type="primary">确 定</el-button>
             </span>
-		</el-dialog>
-	</div>
+        </el-dialog>
+    </div>
 </template>
 
 <script>
@@ -213,8 +213,6 @@
                     content: item.content,
                     createTime: item.createTime
                 };
-                console.log(item);
-                console.log(this.form);
                 this.editVisible = true;
             },
             saveEdit() {
@@ -235,34 +233,34 @@
 </script>
 
 <style scoped>
-	.handle-box {
-		margin-bottom: 20px;
-	}
-	
-	.handle-select {
-		width: 120px;
-	}
-	
-	.handle-input {
-		width: 300px;
-		display: inline-block;
-	}
-	
-	.del-dialog-cnt {
-		font-size: 16px;
-		text-align: center
-	}
-	
-	.table {
-		width: 100%;
-		font-size: 14px;
-	}
-	
-	.red {
-		color: #ff0000;
-	}
-	
-	.mr10 {
-		margin-right: 10px;
-	}
+    .handle-box {
+        margin-bottom: 20px;
+    }
+
+    .handle-select {
+        width: 120px;
+    }
+
+    .handle-input {
+        width: 300px;
+        display: inline-block;
+    }
+
+    .del-dialog-cnt {
+        font-size: 16px;
+        text-align: center
+    }
+
+    .table {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .red {
+        color: #ff0000;
+    }
+
+    .mr10 {
+        margin-right: 10px;
+    }
 </style>
