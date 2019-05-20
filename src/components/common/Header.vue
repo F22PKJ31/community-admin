@@ -20,9 +20,9 @@
     </div>
 </template>
 <script>
-  import bus from '../common/bus';
+    import bus from '../common/bus';
 
-  export default {
+    export default {
         data() {
             return {
                 collapse: false,
@@ -32,7 +32,7 @@
         },
         computed:{
             username(){
-                let username = localStorage.getItem('ADMIN');
+                let username = sessionStorage.getItem('ADMIN');
                 return username ? username : this.name;
             }
         },
@@ -40,7 +40,7 @@
             // 用户名下拉菜单选择事件
             handleCommand(command) {
                 if(command == 'loginout'){
-                    localStorage.removeItem('ADMIN')
+                    sessionStorage.removeItem('ADMIN')
                     this.$router.push('/login');
                 }
             },

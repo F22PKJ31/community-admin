@@ -7,6 +7,13 @@
         </div>
         <div class="container">
             <div class="handle-box">
+                状态:
+                <el-select class="handle-select mr10" placeholder="状态" v-model="selectState">
+                    <el-option label="全部" value=""></el-option>
+                    <el-option label="未审核" value="0"></el-option>
+                    <el-option label="已通过" value="1"></el-option>
+                    <el-option label="不通过" value="-1"></el-option>
+                </el-select>
                 <el-input class="handle-input mr10" placeholder="筛选作者" v-model="selectUser"></el-input>
                 <el-input class="handle-input mr10" placeholder="筛选帖子" v-model="selectPost"></el-input>
                 <el-button type="primary" icon="search" @click="search">搜索</el-button>
@@ -22,9 +29,21 @@
                 </el-table-column>
                 <el-table-column label="创建时间" prop="createTime">
                 </el-table-column>
+                <el-table-column label="状态">
+                    <template slot-scope="scope">
+                        <el-tag type="info" v-if="scope.row.state === 0">未审核</el-tag>
+                        <el-tag type="success" v-else-if="scope.row.state === 1">已通过</el-tag>
+                        <el-tag type="danger" v-else>不通过</el-tag>
+                    </template>
+                </el-table-column>
+                <el-table-column label="原因" prop="reason">
+                </el-table-column>
                 <el-table-column align="center" label="操作">
                     <template slot-scope="scope">
-                        <el-button @click="handleEdit(scope.$index, scope.row)" icon="el-icon-edit" type="text">编辑
+                        <el-button @click="handleDetail(scope.$index, scope.row)" icon="el-icon-edit" type="text">查看
+                        </el-button>
+                        <el-button @click="handleApproval(scope.$index, scope.row)" icon="el-icon-edit" type="text"
+                                   v-if="data[scope.$index].state == 0">审核
                         </el-button>
                         <el-button @click="handleDelete(scope.$index, scope.row)" class="red" icon="el-icon-delete"
                                    type="text">删除
@@ -44,7 +63,7 @@
         <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
             <el-form :model="form" label-width="100px" ref="form">
                 <el-form-item v-if="false">
-                    <el-input v-model="form.blogId"></el-input>
+                    <el-input v-model="form.postId"></el-input>
                 </el-form-item>
                 <el-form-item label="帖子题目">
                     <el-input v-model="form.title"></el-input>
@@ -59,7 +78,21 @@
                 <el-button @click="saveEdit" type="primary">确 定</el-button>
             </span>
         </el-dialog>
-
+    
+        <!-- 审批提示框 -->
+        <el-dialog :visible.sync="approvalVisible" center title="审核" width="500px">
+            审核原因:
+            <el-input :autosize="{ minRows: 2}"
+                      placeholder="请输入内容"
+                      type="textarea"
+                      v-model="reason">
+            </el-input>
+            <span class="dialog-footer" slot="footer">
+                <el-button @click="approvalVisible = false">取 消</el-button>
+                <el-button @click="noPassRow" type="danger">不 通 过</el-button>
+                <el-button @click="passRow" type="primary">通 过</el-button>
+            </span>
+        </el-dialog>
         <!-- 删除提示框 -->
         <el-dialog title="提示" :visible.sync="delVisible" width="300px" center>
             <div class="del-dialog-cnt">删除不可恢复，是否确定删除？</div>
@@ -87,6 +120,9 @@
                 selectPost: '',
                 editVisible: false,
                 delVisible: false,
+                selectState: '',
+                approvalVisible: false,
+                reason: '',
                 form: {
                     postId: '',
                     title: '',
@@ -120,7 +156,7 @@
                         title: this.selectPost,
                     }
                 };
-                this.axiosProxy.getPostList(queryParams).then(response => {
+                this.axiosProxy.getAllPostList(queryParams).then(response => {
                     response.data.records.filter(record => {
                         if (record.content.length > 30) {
                             record.content = record.content.substring(0, 27) + '...';
@@ -145,9 +181,15 @@
                     t: {
                         userName: this.selectUser,
                         title: this.selectPost,
+                        state: this.selectState
                     }
                 };
-                this.axiosProxy.getPostList(queryParams).then(response => {
+                this.axiosProxy.getAllPostList(queryParams).then(response => {
+                    response.data.records.filter(record => {
+                        if (record.content.length > 30) {
+                            record.content = record.content.substring(0, 27) + '...';
+                        }
+                    })
                     this.tableData = response.data.records;
                     this.total = response.data.total;
                     this.pages = response.data.pages;
@@ -186,8 +228,6 @@
                     content: item.content,
                     createTime: item.createTime
                 };
-                console.log(item);
-                console.log(this.form);
                 this.editVisible = true;
             },
             saveEdit() {
@@ -196,6 +236,37 @@
                     this.editVisible = false;
                     this.$message.success(`修改第 ${this.idx + 1} 行成功`);
                 })
+            }, handleApproval(index, row) {
+                this.reason = '';
+                this.idx = index;
+                this.approvalVisible = true;
+            },
+            handleDetail(index, row) {
+                this.idx = index;
+                this.$router.push({name: 'postDetail', query: {'postId': this.tableData[this.idx].postId}})
+            },
+            noPassRow() {
+                this.approval(-1);
+                this.approvalVisible = false;
+            },
+            passRow() {
+                this.approval(1);
+                this.approvalVisible = false;
+            },
+            approval(flag) {
+                let queryParams = {
+                    postId: this.tableData[this.idx].postId,
+                    reason: this.reason,
+                    state: flag
+                };
+                this.axiosProxy.updatePost(queryParams).then(response => {
+                    if (!response.data) {
+                        this.$message.success('审核失败');
+                    } else {
+                        this.$message.success('审核成功');
+                    }
+                    this.getData();
+                });
             }
         }
     }

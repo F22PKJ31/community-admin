@@ -5,7 +5,7 @@ var userHost = 'http://127.0.0.1:8014';
 var categoryHost = 'http://127.0.0.1:8015';
 
 export default {
-      getBlogList: {url: blogHost + '/blog/blogList'}    //获取博客列表
+    getAllBlogList: {url: blogHost + '/blog/allBlogList'}    //获取博客列表
     , getBlogCollectionList: {url: blogHost + '/blog/collectionList'}        //获取博客收藏列表
     , deleteBlogCollection: {url: blogHost + '/blog/deleteCollection'}                       //删除博客收藏
     , getBlogCommentList: {url: blogHost + '/blog/commentList'}                      //获取角色
@@ -13,12 +13,14 @@ export default {
     , getCategoryList: {url: categoryHost + '/category/categoryList'}
     , updateBlog: {url: blogHost + '/blog/updateBlog'}
     , deleteBlog: {url: blogHost + '/blog/deleteBlog'}
+    , getBlogById: {url: blogHost + '/blog/blogDetail'}//获取角色
 
     , updateNews: {url: newsHost + '/news/updateNews'}
     , deleteNews: {url: newsHost + '/news/deleteNews'}
+    , getNewsById: {url: newsHost + '/news/newsDetail'}
     , getNewsCollectionList: {url: blogHost + '/news/collectionList'}        //获取博客收藏列表
     , deleteNewsCollection: {url: blogHost + '/news/deleteCollection'}
-    , getNewsList: {url: newsHost + '/news/newsList'}
+    , getAllNewsList: {url: newsHost + '/news/allNewsList'}
     , getNewsCommentList: {url: newsHost + '/news/commentList'}
     , deleteNewsComment: {url: newsHost + '/news/deleteComment'}
 
@@ -26,8 +28,9 @@ export default {
     , deletePost: {url: postHost + '/post/deletePost'}
     , getPostCollectionList: {url: blogHost + '/post/collectionList'}        //获取博客收藏列表
     , deletePostCollection: {url: blogHost + '/post/deleteCollection'}
-    , getPostList: {url: postHost + '/post/postList'}
+    , getAllPostList: {url: postHost + '/post/allPostList'}
     , getPostCommentList: {url: postHost + '/post/commentList'}
+    , getPostById: {url: postHost + '/post/postDetail'}
     , deletePostComment: {url: postHost + '/post/deleteComment'}
 
     , addUser: {url: userHost + '/user/addUser'}

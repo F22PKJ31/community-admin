@@ -10,6 +10,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import './assets/css/icon.css';
 import './components/common/directives';
 import "babel-polyfill";
+import BootstrapVue from 'bootstrap-vue'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI, {
@@ -18,8 +19,9 @@ Vue.use(ElementUI, {
 Vue.prototype.axiosProxy = api.generateApiMap(url);
 Vue.prototype.$axios = axios;
 Vue.use(utils);
+Vue.use(BootstrapVue)
 router.beforeEach((to, from, next) => {
-    const role = localStorage.getItem('ADMIN');
+    const role = sessionStorage.getItem('ADMIN');
     if (!role && to.path !== '/login') {
         next('/login');
     } else if (to.meta.permission) {

@@ -158,7 +158,7 @@
                     ],
                     passwd: [
                         {required: true, message: '请输入密码', trigger: 'blur'},
-                        {min: 8, max: 16, message: '长度在8到16个字符之间', trigger: 'blur'}
+                        {min: 2, max: 16, message: '长度在2到16个字符之间', trigger: 'blur'}
                     ],
                     mobile: [
                         {required: true, message: '请输入手机号', trigger: 'blur'}

@@ -153,7 +153,7 @@
             // 确定删除
             deleteRow() {
                 let queryParams = {
-                    id: this.tableData[this.idx].collectionId
+                    id: this.tableData[this.idx].categoryId
                 };
                 this.axiosProxy.deleteCategory(queryParams).then(response => {
                     if (!response.data) {

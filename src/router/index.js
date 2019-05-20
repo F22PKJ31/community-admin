@@ -19,6 +19,11 @@ export default new Router({
                     path: 'blog',
                     component: resolve => require(['../components/page/BlogTable.vue'], resolve),
                     meta: {title: '博客管理'}
+                }, {
+                    name: 'blogDetail',
+                    path: 'blogDetail',
+                    component: resolve => require(['../components/page/BlogDetailPage.vue'], resolve),
+                    meta: {title: '博客详情'}
                 },
                 {
                     path: 'blogCollection',
@@ -34,6 +39,11 @@ export default new Router({
                     path: 'post',
                     component: resolve => require(['../components/page/PostTable.vue'], resolve),
                     meta: {title: '帖子管理'}
+                }, {
+                    name: 'postDetail',
+                    path: 'postDetail',
+                    component: resolve => require(['../components/page/PostDetailPage.vue'], resolve),
+                    meta: {title: '帖子详情'}
                 },
                 {
                     path: 'postComment',
@@ -48,7 +58,18 @@ export default new Router({
                 {
                     path: 'newsTable',
                     component: resolve => require(['../components/page/NewsTable.vue'], resolve),
-                    meta: {title: '新闻管理'}
+                    meta: {title: '新闻管理'},
+                }, {
+                    name: 'newsDetail',
+                    path: 'newsDetail',
+                    component: resolve => require(['../components/page/NewsDetailPage.vue'], resolve),
+                    meta: {title: '新闻详情'}
+                },
+                {
+                    path: 'editNewsPage',
+                    name: 'editNewsPage',
+                    component: resolve => require(['../components/page/EditNewsPage.vue'], resolve),
+                    meta: {title: '新闻编辑'}
                 },
                 {
                     path: 'newsCollection',
